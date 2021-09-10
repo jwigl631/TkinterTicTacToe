@@ -2,16 +2,22 @@
 #TKinter Tic Tac Toe Project
 #9/9/21
 from tkinter import *
-import random
+
 root = Tk()
 root.title('Tic Tac Toe')
 
 turns = 0
 boardButtons = []
-systemButtons= []
+systemButtons = []
 quantity = StringVar()
 
-def board(boardButtons, quantity):
+def checkBoardSize(quantity):
+    if quantity % 3 == 0 and quantity >= 3 and quantity <=9:
+        return True
+    else:
+        return False
+
+def board(quantity):
     clearWindow()
     quantity = int(quantity.get())
     boardButtons = [[] for i in range(quantity)]
@@ -27,22 +33,22 @@ def mainMenu():
     clearWindow()
     Label(root, text="Welcome To Tic Tac Toe", font='Arial').grid(row=0, column=0)
     Label(root, text="Select A Game Mode").grid(row=1, column=0)
-    Button(root, text="Singleplayer", height=4, width=10, command=singlePlayerStart).grid(row=2, column=0)
-    Button(root, text="Multiplayer", height=4, width=10, command=multiplayerStart).grid(row=3, column=0)
+    Button(root, text="Singleplayer", height=3, width=10, command=singlePlayerStart).grid(row=2, column=0)
+    Button(root, text="Multiplayer", height=3, width=10, command=multiplayerStart).grid(row=3, column=0)
 
 def singlePlayerStart():
     clearWindow()
-    Label(root, text="Enter the board size (3, 6 or 9)", font='Arial').grid(row=0, column=1)
+    Label(root, text="Enter the board size (3-9)", font='Arial').grid(row=0, column=1)
     Entry(root, textvariable=quantity).grid(row=1, column=1)
-    Button(root, command=lambda: board(boardButtons, quantity), text="Enter").grid(row=2, column=1)
-    Button(root, text="Return", command=mainMenu).grid(row=3, column=1)
+    Button(root, command=lambda: board(quantity), text="Enter", height=2, width=10).grid(row=2, column=1)
+    Button(root, text="Return", command=mainMenu, height=2, width=10).grid(row=3, column=1)
 
 def multiplayerStart():
     clearWindow()
-    Label(root, text="Enter the board size (3, 6 or 9)", font='Arial').grid(row=0, column=1)
+    Label(root, text="Enter the board size (3-9)", font='Arial').grid(row=0, column=1)
     Entry(root, textvariable=quantity).grid(row=1, column=1)
-    Button(root, command=lambda: board(boardButtons, quantity), text="Enter").grid(row=2, column=1)
-    Button(root, text="Return", command=mainMenu).grid(row=3, column=1)
+    Button(root, command=lambda: board(quantity), text="Enter", height=2, width=10).grid(row=2, column=1)
+    Button(root, text="Return", command=mainMenu, height=2, width=10).grid(row=3, column=1)
 
 def clearWindow():
     for widget in root.winfo_children():
