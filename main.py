@@ -26,20 +26,22 @@ def board(quantity):
         for row in range(quantity):
             for column in range(quantity):
                 boardButtons[row].append(Button(root,text="-", width=12, height=4))
-                boardButtons[row][column].config(command=lambda currentRow = row, currentColumn = column: click(currentRow, currentColumn))
+                boardButtons[row][column].config(command=lambda currentrow = row, currentcolumn = column: click(currentrow, currentcolumn))
                 boardButtons[row][column].grid(row=row+1,column=column)
         if mode == "m":
             print("multi")
         elif mode == "s":
             print("single")
     else:
-        messagebox.showinfo("Error", "Input multiple of 3 between 3-9")
+        messagebox.showinfo("Error", "Input a number that is a multiple of 3 between 3-9")
         boardStart()
+
+def updateBoard():
+    pass
 
 def systemBoard(quantity):
     global gameBoard
     gameBoard = [["" for j in range(quantity)] for i in range(quantity)]
-
 
 def mainMenu():
     clearWindow()
