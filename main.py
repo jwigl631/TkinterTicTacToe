@@ -7,6 +7,7 @@ from tkinter import messagebox
 root = Tk()
 root.title('Tic Tac Toe')
 
+global turn
 global gameBoard
 turns = 0
 boardButtons = []
@@ -25,7 +26,7 @@ def mainMenu():
 #Where the player inputs the size of the board
 def boardStart():
     clearWindow()
-    Label(root, text="Enter the board size (Odd between 3-9)", font='Arial').grid(row=0, column=1)
+    Label(root, text="Enter and odd number (3-9)", font='Arial').grid(row=0, column=1)
     Entry(root, textvariable=quantity).grid(row=1, column=1)
     Button(root, command=lambda: check(quantity.get()), text="Enter", height=2, width=10).grid(row=2, column=1)
     Button(root, text="Return", command=mainMenu, height=2, width=10).grid(row=3, column=1)
@@ -39,7 +40,7 @@ def check(quantity):
         messagebox.showinfo('Error', 'Input an odd value (3-9)')
         boardStart()
 
-#Creates the game board arrays that store the X/O values, call only once
+#Creates the game board arrays that store the X/O values, calls only once
 def createBoard(quantity1):
     global gameBoard
     print(quantity1)
@@ -47,7 +48,7 @@ def createBoard(quantity1):
     print(gameBoard)
     board(quantity1)
 
-#Displays the buttons for the boards and updates them
+#Displays the buttons for the boards and updates them, and switches turns
 def board(quantity1):
     global gameBoard
     clearWindow()
@@ -57,13 +58,26 @@ def board(quantity1):
             boardButtons[row].append(Button(root,text=gameBoard[row][column], width=12, height=4))
             boardButtons[row][column].config(command=lambda currentrow = row, currentcolumn = column: click(currentrow, currentcolumn, quantity1))
             boardButtons[row][column].grid(row=row+1,column=column)
+    checkWinner()
 
-#Function that changes the button based on which one it clicks
+#Changes button to the current turn based on which one it clicks, returns an error if the spot is taken up
 def click(row, column, quantity1):
     global gameBoard
-    gameBoard[row][column] = 'X'
+    global turn
+    if gameBoard[row][column] == '-':
+        gameBoard[row][column] = turn
+        if turn == 'O':
+            turn = 'X'
+        elif turn == 'X':
+            turn = 'O'
+    else:
+        messagebox.showinfo('Wrong Move', 'That spot has already been taken up')
     print(gameBoard)
     board(quantity1)
+
+#Checks winner via the gameBoard array
+def checkWinner():
+    pass
 
 #Clear the window
 def clearWindow():
