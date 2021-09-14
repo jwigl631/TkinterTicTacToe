@@ -53,6 +53,7 @@ def board(quantity):
 def systemBoard(quantity1):
     global gameBoard
     gameBoard = [["" for j in range(quantity1)] for i in range(quantity1)]
+    print(gameBoard)
 
 def click(row, column, quantity1):
     global gameBoard
