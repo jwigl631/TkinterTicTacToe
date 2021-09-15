@@ -48,7 +48,7 @@ def createBoard(quantity1):
     print(gameBoard)
     board(quantity1)
 
-#Displays the buttons for the boards and updates them, and switches turns
+#Displays the buttons for the boards and updates them
 def board(quantity1):
     global gameBoard
     clearWindow()
@@ -58,9 +58,8 @@ def board(quantity1):
             boardButtons[row].append(Button(root,text=gameBoard[row][column], width=12, height=4))
             boardButtons[row][column].config(command=lambda currentrow = row, currentcolumn = column: click(currentrow, currentcolumn, quantity1))
             boardButtons[row][column].grid(row=row+1,column=column)
-    checkWinner()
 
-#Changes button to the current turn based on which one it clicks, returns an error if the spot is taken up
+#Changes button to the current turn based on which one it clicks, returns an error if the spot is taken up and switches turns
 def click(row, column, quantity1):
     global gameBoard
     global turn
@@ -72,12 +71,22 @@ def click(row, column, quantity1):
             turn = 'O'
     else:
         messagebox.showinfo('Wrong Move', 'That spot has already been taken up')
-    print(gameBoard)
     board(quantity1)
 
 #Checks winner via the gameBoard array
-def checkWinner():
-    pass
+def checkWinner(quantity1):
+    global gameBoard
+    global turn
+
+    #Check Horizontal Win
+    counter = 0
+    for index in range(quantity1):
+        for element in gameBoard[index][0:quantity1]:
+           if element == turn:
+               counter += 1
+               while counter == quantity1:
+                   print(turn, " won the game")
+                   exit()
 
 #Clear the window
 def clearWindow():
