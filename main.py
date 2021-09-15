@@ -66,15 +66,16 @@ def click(row, column, quantity1):
     global turn
     if gameBoard[row][column] == '-':
         gameBoard[row][column] = turn
+        print(gameBoard)
+        board(quantity1)
         checkWinner(quantity1)
+
         if turn == 'O':
             turn = 'X'
         elif turn == 'X':
             turn = 'O'
     else:
         messagebox.showinfo('Wrong Move', 'That spot has already been taken up')
-    print(gameBoard)
-    board(quantity1)
 
 #Checks winner via the gameBoard array
 def checkWinner(quantity1):
