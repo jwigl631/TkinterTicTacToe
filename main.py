@@ -70,6 +70,7 @@ def click(row, column, quantity1):
         board(quantity1)
         checkWinner(quantity1)
 
+        #Switches turns
         if turn == 'O':
             turn = 'X'
         elif turn == 'X':
@@ -89,22 +90,53 @@ def checkWinner(quantity1):
            if column == turn:
                counter += 1
                if counter == quantity1:
-                   messagebox.showinfo("Winner", "Winner")
+                   messagebox.showinfo("Winner", turn + " Won The Game")
                    print(turn, "Won the game")
                    exit()
         counter = 0
 
-    # Check Vertical Win
-    counter = 0
+    #Check Vertical Win
     for column in range(quantity1):
         for row in range(quantity1):
             if gameBoard[0:quantity1][row][column] == turn:
                 counter += 1
             if counter == quantity1:
-                messagebox.showinfo("Winner", "Winner")
+                messagebox.showinfo("Winner", turn + " Won The Game")
                 print(turn, "Won the game")
                 exit()
         counter = 0
+
+    #Backwards Diagnol
+    for place in range(quantity1):
+        if gameBoard[0:quantity1][place][place] == turn:
+            counter += 1
+        if counter == quantity1:
+            messagebox.showinfo("Winner", turn + " Won The Game")
+            print(turn, "Won the game")
+            exit()
+    counter = 0
+
+    #Forwards Diagnol
+    i = quantity1 - 1
+    for column in range(quantity1):
+        if gameBoard[0:quantity1][column][i] == turn:
+            counter += 1
+        i -= 1
+        if counter == quantity1:
+            messagebox.showinfo("Winner", turn + " Won The Game")
+            print(turn, "Won the game")
+            exit()
+    counter = 0
+
+    #All spots filled up
+    for row in range(quantity1):
+        for column in gameBoard[row][0:quantity1]:
+            if column == 'X' or column == 'O':
+                counter += 1
+            if counter == quantity1 * quantity1:
+                messagebox.showinfo("Tie", "The Result Is A Tie")
+                print("Nobody Won, It Was A Tie")
+                exit()
 
 #Clear the window
 def clearWindow():
