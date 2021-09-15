@@ -3,6 +3,7 @@
 #9/9/21
 from tkinter import *
 from tkinter import messagebox
+import time
 
 root = Tk()
 root.title('Tic Tac Toe')
@@ -65,12 +66,14 @@ def click(row, column, quantity1):
     global turn
     if gameBoard[row][column] == '-':
         gameBoard[row][column] = turn
+        checkWinner(quantity1)
         if turn == 'O':
             turn = 'X'
         elif turn == 'X':
             turn = 'O'
     else:
         messagebox.showinfo('Wrong Move', 'That spot has already been taken up')
+    print(gameBoard)
     board(quantity1)
 
 #Checks winner via the gameBoard array
@@ -80,13 +83,27 @@ def checkWinner(quantity1):
 
     #Check Horizontal Win
     counter = 0
-    for index in range(quantity1):
-        for element in gameBoard[index][0:quantity1]:
-           if element == turn:
+    for row in range(quantity1):
+        for column in gameBoard[row][0:quantity1]:
+           if column == turn:
                counter += 1
-               while counter == quantity1:
-                   print(turn, " won the game")
+               if counter == quantity1:
+                   messagebox.showinfo("Winner", "Winner")
+                   print(turn, "Won the game")
                    exit()
+        counter = 0
+
+    # Check Vertical Win
+    counter = 0
+    for column in range(quantity1):
+        for row in range(quantity1):
+            if gameBoard[0:quantity1][row][column] == turn:
+                counter += 1
+            if counter == quantity1:
+                messagebox.showinfo("Winner", "Winner")
+                print(turn, "Won the game")
+                exit()
+        counter = 0
 
 #Clear the window
 def clearWindow():
