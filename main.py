@@ -3,11 +3,12 @@
 #9/9/21
 from tkinter import *
 from tkinter import messagebox
-import time
+import random
 
 root = Tk()
 root.title('Tic Tac Toe')
 
+global mode
 global turn
 global gameBoard
 turns = 0
@@ -21,13 +22,27 @@ def mainMenu():
     clearWindow()
     Label(root, text="Welcome To Tic Tac Toe", font='Arial').grid(row=0, column=0)
     Label(root, text="Select A Game Mode").grid(row=1, column=0)
-    Button(root, text="Singleplayer", height=3, width=10, command=boardStart).grid(row=2, column=0)
-    Button(root, text="Multiplayer", height=3, width=10, command=boardStart).grid(row=3, column=0)
+    Button(root, text="Singleplayer", height=3, width=10, command=singleStart).grid(row=2, column=0)
+    Button(root, text="Multiplayer", height=3, width=10, command=multiStart).grid(row=3, column=0)
 
-#Where the player inputs the size of the board
-def boardStart():
+#Where the player inputs the size of the board,
+#Single Player Start
+def singleStart():
+    global mode
+    mode = "s"
     clearWindow()
-    Label(root, text="Enter and odd number (3-9)", font='Arial').grid(row=0, column=1)
+    Label(root, text="Enter an odd number (3-9)", font='Arial').grid(row=0, column=1)
+    Entry(root, textvariable=quantity).grid(row=1, column=1)
+    Button(root, command=lambda: check(quantity.get()), text="Enter", height=2, width=10).grid(row=2, column=1)
+    Button(root, text="Return", command=mainMenu, height=2, width=10).grid(row=3, column=1)
+
+#Where the player inputs the size of the board,
+#Mulitplayer start
+def multiStart():
+    global mode
+    mode = "m"
+    clearWindow()
+    Label(root, text="Enter an odd number (3-9)", font='Arial').grid(row=0, column=1)
     Entry(root, textvariable=quantity).grid(row=1, column=1)
     Button(root, command=lambda: check(quantity.get()), text="Enter", height=2, width=10).grid(row=2, column=1)
     Button(root, text="Return", command=mainMenu, height=2, width=10).grid(row=3, column=1)
@@ -36,21 +51,25 @@ def boardStart():
 def check(quantity):
     quantity1 = int(quantity)
     if quantity1 % 2 == 1 and quantity1 > 1 and quantity1 < 10:
+        print(mode)
         createBoard(quantity1)
     else:
         messagebox.showinfo('Error', 'Input an odd value (3-9)')
-        boardStart()
+        if mode == "m":
+            multiStart()
+        elif mode == "s":
+            singleStart()
 
-#Creates the game board arrays that store the X/O values, calls only once
+#Creates the Multiplayer game board arrays that store the X/O values, calls only once
 def createBoard(quantity1):
     global gameBoard
     print(quantity1)
     gameBoard = [["-" for j in range(quantity1)] for i in range(quantity1)]
     print(gameBoard)
-    board(quantity1)
+    multiBoard(quantity1)
 
-#Displays the buttons for the boards and updates them
-def board(quantity1):
+#Multiplayer, Displays the buttons for the boards and updates them
+def multiBoard(quantity1):
     global gameBoard
     clearWindow()
     boardButtons = [[] for i in range(quantity1)]
@@ -67,7 +86,7 @@ def click(row, column, quantity1):
     if gameBoard[row][column] == '-':
         gameBoard[row][column] = turn
         print(gameBoard)
-        board(quantity1)
+        multiBoard(quantity1)
         checkWinner(quantity1)
 
         #Switches turns
@@ -106,7 +125,7 @@ def checkWinner(quantity1):
                 exit()
         counter = 0
 
-    #Backwards Diagnol
+    #Forwards Diagnol
     for place in range(quantity1):
         if gameBoard[0:quantity1][place][place] == turn:
             counter += 1
@@ -116,7 +135,7 @@ def checkWinner(quantity1):
             exit()
     counter = 0
 
-    #Forwards Diagnol
+    #Backwards Diagnol
     i = quantity1 - 1
     for column in range(quantity1):
         if gameBoard[0:quantity1][column][i] == turn:
