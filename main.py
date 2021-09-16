@@ -60,13 +60,27 @@ def check(quantity):
         elif mode == "s":
             singleStart()
 
-#Creates the Multiplayer game board arrays that store the X/O values, calls only once
+#Creates the game board arrays that store the X/O values, calls only once
 def createBoard(quantity1):
     global gameBoard
     print(quantity1)
     gameBoard = [["-" for j in range(quantity1)] for i in range(quantity1)]
     print(gameBoard)
-    multiBoard(quantity1)
+    if mode == 'm':
+        multiBoard(quantity1)
+    elif mode == 's':
+        singleBoard(quantity1)
+
+#Single Player, Displays the buttons for the boards and updates them
+def singleBoard(quantity1):
+    global gameBoard
+    clearWindow()
+    boardButtons = [[] for i in range(quantity1)]
+    for row in range(quantity1):
+        for column in range(quantity1):
+            boardButtons[row].append(Button(root,text=gameBoard[row][column], width=12, height=4))
+            boardButtons[row][column].config(command=lambda currentrow = row, currentcolumn = column: singleClick(currentrow, currentcolumn, quantity1))
+            boardButtons[row][column].grid(row=row+1,column=column)
 
 #Multiplayer, Displays the buttons for the boards and updates them
 def multiBoard(quantity1):
@@ -76,11 +90,36 @@ def multiBoard(quantity1):
     for row in range(quantity1):
         for column in range(quantity1):
             boardButtons[row].append(Button(root,text=gameBoard[row][column], width=12, height=4))
-            boardButtons[row][column].config(command=lambda currentrow = row, currentcolumn = column: click(currentrow, currentcolumn, quantity1))
+            boardButtons[row][column].config(command=lambda currentrow = row, currentcolumn = column: multiClick(currentrow, currentcolumn, quantity1))
             boardButtons[row][column].grid(row=row+1,column=column)
 
-#Changes button to the current turn based on which one it clicks, returns an error if the spot is taken up and switches turns
-def click(row, column, quantity1):
+#Single Player, Changes button to the current turn based on which one it clicks, returns an error if the spot is taken up and switches turns
+def singleClick(row, column, quantity1):
+    global gameBoard
+    global turn
+    if gameBoard[row][column] == '-':
+        gameBoard[row][column] = turn
+        singleBoard(quantity1)
+        checkWinner(quantity1)
+    else:
+        messagebox.showinfo('Wrong Move', 'That spot has already been taken up')
+
+def AITurn(quantity1):
+    # Switches to AI's turn, only for singleplayer
+    AIMove = (random.randint(1, quantity1 - 1))
+    AIMove2 = (random.randint(1, quantity1 - 1))
+    turn = 'O'
+    # Checks to see if the space is not taken up
+    Flag = True
+    while Flag == True:
+        if gameBoard[AIMove][AIMove2] == "-":
+            print(gameBoard[AIMove][AIMove2])
+            Flag = False
+        else:
+            AITurn(quantity1)
+
+#Multiplayer, Changes button to the current turn based on which one it clicks, returns an error if the spot is taken up and switches turns
+def multiClick(row, column, quantity1):
     global gameBoard
     global turn
     if gameBoard[row][column] == '-':
