@@ -20,10 +20,10 @@ turn = "X"
 #Main menu, choose between single player and multiplayer
 def mainMenu():
     clearWindow()
-    Label(root, text="Welcome To Tic Tac Toe", font='Arial').grid(row=0, column=0)
-    Label(root, text="Select A Game Mode").grid(row=1, column=0)
-    Button(root, text="Singleplayer", height=3, width=10, command=singleStart).grid(row=2, column=0)
-    Button(root, text="Multiplayer", height=3, width=10, command=multiStart).grid(row=3, column=0)
+    Label(root, text="Welcome To Tic Tac Toe", font='Arial',  bg='Black', fg='Orange').grid(row=0, column=0)
+    Label(root, text="Select A Game Mode",  bg='Black', fg='Orange').grid(row=1, column=0)
+    Button(root, text="Singleplayer", height=3, width=10, command=singleStart, bg='Black', fg='Orange').grid(row=2, column=0)
+    Button(root, text="Multiplayer", height=3, width=10, command=multiStart,  bg='Black', fg='Orange').grid(row=3, column=0)
 
 #Where the player inputs the size of the board,
 #Single Player Start
@@ -31,10 +31,10 @@ def singleStart():
     global mode
     mode = "s"
     clearWindow()
-    Label(root, text="Enter an odd number (3-9)", font='Arial').grid(row=0, column=1)
-    Entry(root, textvariable=quantity).grid(row=1, column=1)
-    Button(root, command=lambda: check(quantity.get()), text="Enter", height=2, width=10).grid(row=2, column=1)
-    Button(root, text="Return", command=mainMenu, height=2, width=10).grid(row=3, column=1)
+    Label(root, text="Enter an odd number (3-9)", font='Arial', bg='Blue', fg='White').grid(row=0, column=1)
+    Entry(root, textvariable=quantity, bg='Black', fg='Orange').grid(row=1, column=1)
+    Button(root, command=lambda: check(quantity.get()), text="Enter", height=2, width=10,  bg='Black', fg='White').grid(row=2, column=1)
+    Button(root, text="Return", command=mainMenu, height=2, width=10,  bg='Black', fg='White').grid(row=3, column=1)
 
 #Where the player inputs the size of the board,
 #Mulitplayer start
@@ -42,10 +42,10 @@ def multiStart():
     global mode
     mode = "m"
     clearWindow()
-    Label(root, text="Enter an odd number (3-9)", font='Arial').grid(row=0, column=1)
-    Entry(root, textvariable=quantity).grid(row=1, column=1)
-    Button(root, command=lambda: check(quantity.get()), text="Enter", height=2, width=10).grid(row=2, column=1)
-    Button(root, text="Return", command=mainMenu, height=2, width=10).grid(row=3, column=1)
+    Label(root, text="Enter an odd number (3-9)", font='Arial', bg='Blue', fg='White').grid(row=0, column=1)
+    Entry(root, textvariable=quantity,  bg='Black', fg='Orange').grid(row=1, column=1)
+    Button(root, command=lambda: check(quantity.get()), text="Enter", height=2, width=10, bg='Black', fg='White').grid(row=2, column=1)
+    Button(root, text="Return", command=mainMenu, height=2, width=10, bg='Black', fg='White').grid(row=3, column=1)
 
 #Makes sure the quantity is an odd number between 3 and 9
 def check(quantity):
@@ -78,7 +78,7 @@ def singleBoard(quantity1):
     boardButtons = [[] for i in range(quantity1)]
     for row in range(quantity1):
         for column in range(quantity1):
-            boardButtons[row].append(Button(root,text=gameBoard[row][column], width=12, height=4))
+            boardButtons[row].append(Button(root,text=gameBoard[row][column], width=12, height=4,  bg='Black', fg='Orange'))
             boardButtons[row][column].config(command=lambda currentrow = row, currentcolumn = column: singleClick(currentrow, currentcolumn, quantity1))
             boardButtons[row][column].grid(row=row+1,column=column)
 
@@ -89,7 +89,7 @@ def multiBoard(quantity1):
     boardButtons = [[] for i in range(quantity1)]
     for row in range(quantity1):
         for column in range(quantity1):
-            boardButtons[row].append(Button(root,text=gameBoard[row][column], width=12, height=4))
+            boardButtons[row].append(Button(root,text=gameBoard[row][column], width=12, height=4,  bg='Black', fg='Orange'))
             boardButtons[row][column].config(command=lambda currentrow = row, currentcolumn = column: multiClick(currentrow, currentcolumn, quantity1))
             boardButtons[row][column].grid(row=row+1,column=column)
 
