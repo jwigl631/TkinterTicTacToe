@@ -97,26 +97,31 @@ def multiBoard(quantity1):
 def singleClick(row, column, quantity1):
     global gameBoard
     global turn
+    turn = 'X'
     if gameBoard[row][column] == '-':
         gameBoard[row][column] = turn
         singleBoard(quantity1)
         checkWinner(quantity1)
+        turn = 'O'
+        AITurn(quantity1)
     else:
         messagebox.showinfo('Wrong Move', 'That spot has already been taken up')
 
 def AITurn(quantity1):
     # Switches to AI's turn, only for singleplayer
-    AIMove = (random.randint(1, quantity1 - 1))
-    AIMove2 = (random.randint(1, quantity1 - 1))
-    turn = 'O'
+    global turn
+    AIMove = (random.randint(0, quantity1 - 1))
+    AIMove2 = (random.randint(0, quantity1 - 1))
     # Checks to see if the space is not taken up
-    Flag = True
-    while Flag == True:
-        if gameBoard[AIMove][AIMove2] == "-":
-            print(gameBoard[AIMove][AIMove2])
-            Flag = False
-        else:
-            AITurn(quantity1)
+    loop = 0
+    if gameBoard[AIMove][AIMove2] == "-":
+            loop = 1
+            if loop == 1:
+                gameBoard[AIMove][AIMove2] = turn
+                singleBoard(quantity1)
+                checkWinner(quantity1)
+    else:
+        AITurn(quantity1)
 
 #Multiplayer, Changes button to the current turn based on which one it clicks, returns an error if the spot is taken up and switches turns
 def multiClick(row, column, quantity1):
